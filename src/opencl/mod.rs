@@ -2,6 +2,7 @@ mod error;
 mod utils;
 
 pub use error::*;
+use log::info;
 use sha2::{Digest, Sha256};
 use std::fmt::Write;
 use std::hash::{Hash, Hasher};
@@ -218,9 +219,12 @@ impl Program {
         self.device.clone()
     }
     pub fn from_opencl(device: Device, src: &str) -> GPUResult<Program> {
+        info!("from_opencl start ");
         let cached = utils::cache_path(&device, src)?;
+        info!("from_opencl cached {:?} ", cached);
         if std::path::Path::exists(&cached) {
             let bin = std::fs::read(cached)?;
+            info!("from_opencl end switch 1");
             Program::from_binary(device, bin)
         } else {
             let context = ocl::Context::builder()
@@ -238,6 +242,7 @@ impl Program {
                 device,
             };
             std::fs::write(cached, prog.to_binary()?)?;
+            info!("from_opencl end switch 2");
             Ok(prog)
         }
     }

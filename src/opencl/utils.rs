@@ -61,6 +61,7 @@ pub fn get_amd_bus_id(d: ocl::Device) -> ocl::Result<u32> {
 
 pub fn cache_path(device: &Device, cl_source: &str) -> std::io::Result<std::path::PathBuf> {
     let path = dirs::home_dir().unwrap().join(".rust-gpu-tools");
+    info!(" path  {:?}", path);
     if !std::path::Path::exists(&path) {
         std::fs::create_dir(&path)?;
     }
