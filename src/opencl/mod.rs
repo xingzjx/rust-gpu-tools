@@ -14,7 +14,7 @@ use opencl3::memory::CL_MEM_READ_WRITE;
 use opencl3::program::ProgramInfo::CL_PROGRAM_BINARIES;
 use opencl3::types::CL_BLOCKING;
 
-use log::debug;
+use log::{debug, info};
 
 use crate::device::{DeviceUuid, PciId, Vendor};
 use crate::error::{GPUError, GPUResult};
@@ -124,6 +124,8 @@ impl Program {
     /// Creates a program for a specific device from OpenCL source code.
     pub fn from_opencl(device: &Device, src: &str) -> GPUResult<Program> {
         let cached = utils::cache_path(device, src)?;
+        info!("cached {:?}", cached);
+        println!("cached {:?}", cached);
         if std::path::Path::exists(&cached) {
             let bin = std::fs::read(cached)?;
             Program::from_binary(device, bin)

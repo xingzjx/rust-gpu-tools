@@ -1,5 +1,7 @@
 use rust_gpu_tools::{cuda, opencl, program_closures, Device, GPUError, Program};
 
+use log::info;
+
 /// Returns a `Program` that runs on CUDA.
 fn cuda(device: &Device) -> Program {
     // The kernel was compiled with:
@@ -20,6 +22,8 @@ fn opencl(device: &Device) -> Program {
 
 pub fn main() {
     // Define some data that should be operated on.
+
+    info!("start");
     let aa: Vec<u32> = vec![1, 2, 3, 4];
     let bb: Vec<u32> = vec![5, 6, 7, 8];
 
